@@ -2,8 +2,6 @@
 
 **An offset finder for OGFN that aims to be fully accurate up to 18.40**
 
-*Initial commit soon*
-
 
 
 **Credits**
