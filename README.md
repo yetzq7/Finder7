@@ -1,7 +1,9 @@
 # Finder7
 
-**An offset finder for OGFN that aims to be fully accurate up to 18.40**
+**A Simple attempt at an Offset Finder for OGFN using Memcury**
 
+
+I will be updating this frequently!
 
 
 **Credits**
