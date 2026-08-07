@@ -6,8 +6,7 @@
 I will be updating this frequently!
 
 
-**Credits**
-
+**Credits:**
 - **[Erbium](https://github.com/plooshi/Erbium/tree/main) --> Patterns**
 
 - **[Memcury](https://github.com/kem0x/Memcury/tree/master)**
