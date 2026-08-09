@@ -33,6 +33,7 @@ DWORD WINAPI FinderSeven(LPVOID lpParam)
     auto GiveAbility = Memcury::Scanner::FindPattern("48 89 5C 24 ? 56 57 41 56 48 83 EC 20 83 B9");
     auto ApplyCharacterCustomization = Memcury::Scanner::FindPattern("48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 80 B9 ? ? ? ? ? 4C 8B EA");
     auto Realloc = Memcury::Scanner::FindPattern("48 89 5C 24 08 48 89 74 24 10 57 48 83 EC ? 48 8B F1 41 8B D8 48 8B 0D ? ? ? ");
+    auto KickPlayer = Memcury::Scanner::FindPattern("40 53 56 48 81 EC ? ? ? ? 48 8B DA 48 8B F1 E8 ? ? ? ? 48 8B 06 48 8B CE");
 
     // if initial patterns fail then it will try and use patterns from these below
 
@@ -169,11 +170,61 @@ DWORD WINAPI FinderSeven(LPVOID lpParam)
     if (!Realloc.Get())
         Realloc = Memcury::Scanner::FindPattern("48 89 5C 24 08 48 89 74 24 10 57 48 83 EC ? 48 8B F1 41 8B D8 48 8B 0D ? ? ? ?"); // ig??
 
+    //kickplayer
+
+    if (!KickPlayer.Get())
+        KickPlayer = Memcury::Scanner::FindPattern("48 8B C4 48 89 58 08 48 89 70 10 48 89 78 18 4C 89 60 20 55 41 56 41 57 48 8B EC 48 83 EC 60 48 83 65 ? ? 4C 8B F2 83 65 E8 00 4C 8B E1 83 65 EC");
+
+    if (!KickPlayer.Get())
+        KickPlayer = Memcury::Scanner::FindPattern("48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 45 33 E4 48 8B FA 41 8B DC");
+
+    if (!KickPlayer.Get())
+        KickPlayer = Memcury::Scanner::FindPattern("48 89 5C 24 ? 55 56 57 48 8B EC 48 83 EC 60 48 8B FA 48 8B F1 E8");
+
+    if (!KickPlayer.Get())
+        KickPlayer = Memcury::Scanner::FindPattern("48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 45 ? 45 33 ED 48 8B FA 41 8B DD");
+
+    if (!KickPlayer.Get())
+        KickPlayer = Memcury::Scanner::FindPattern("48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 45 ? 33 DB 48 8B FA 89 5C 24");
+
+    if (!KickPlayer.Get())
+        KickPlayer = Memcury::Scanner::FindPattern("48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 33 FF 48 8B F2 89 7C 24");
+
+    if (!KickPlayer.Get())
+        KickPlayer = Memcury::Scanner::FindPattern("48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 45 33 E4 48 8B F2 41 8B FC");
+
+    if (!KickPlayer.Get())
+        KickPlayer = Memcury::Scanner::FindPattern("48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 45 ? 45 33 E4 48 8B FA 41 8B DC");
+
+    if (!KickPlayer.Get())
+        KickPlayer = Memcury::Scanner::FindPattern("48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 45 33 F6 48 89 4C 24 ? 45 8B FE");
+
+    if (!KickPlayer.Get())
+        KickPlayer = Memcury::Scanner::FindPattern("48 89 5C 24 08 48 89 74 24 10 57 48 83 EC ? 49 8B F0 48 8B DA 48 85 D2");
+
+    if (!KickPlayer.Get())
+        KickPlayer = Memcury::Scanner::FindPattern("48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 45 ? 33 DB 48 8B FA");
+
+    if (!KickPlayer.Get())
+        KickPlayer = Memcury::Scanner::FindPattern("48 89 5C ?? ?? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C ?? ?? 48 81 EC ?? ?? ?? ?? 48 8B 05 ?? ?? ?? ?? 48 33 C4 48 89 45 ?? 45 33 E4 48 8B FA 41 8B DC");
+
+    if (!KickPlayer.Get())
+        KickPlayer = Memcury::Scanner::FindPattern("48 89 5C ?? ?? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C ?? ?? 48 81 EC ?? ?? ?? ?? 48 8B 05 ?? ?? ?? ?? 48 33 C4 48 89 45 ?? 45 33 FF 48 8B FA 41 8B DF");
+
+    if (!KickPlayer.Get())
+        KickPlayer = Memcury::Scanner::FindPattern("48 89 5C ?? ?? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C ?? ?? 48 81 EC ?? ?? ?? ?? 48 8B 05 ?? ?? ?? ?? 48 33 C4 48 89 45 ?? 45 33 ED 48 8B FA 41 8B DD");
+
+    if (!KickPlayer.Get())
+        KickPlayer = Memcury::Scanner::FindPattern("48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 45 33 ED 48 8B FA 41 8B DD");
+
+    if (!KickPlayer.Get())
+        KickPlayer = Memcury::Scanner::FindPattern("40 53 41 56 48 81 EC ? ? ? ? 48 8B 01 48 8B DA 4C 8B F1 FF 90");
 
     uintptr_t Base = (uintptr_t)GetModuleHandleA(nullptr);
 
 
     std::cout << "- Offsets generated!" << "\n";
+    std::cout << "----------" << "\n";
 
     if (CreateNetDriver.Get()) {
         std::cout << "CreateNetDriver: 0x" << std::hex << (CreateNetDriver.Get() - Base) << "\n";
@@ -226,6 +277,13 @@ DWORD WINAPI FinderSeven(LPVOID lpParam)
         std::cout << "GetNetMode: not found" << "\n";
     }
 
+    if (KickPlayer.Get()) {
+        std::cout << "KickPlayer: 0x" << std::hex << (KickPlayer.Get() - Base) << "\n";
+    }
+    else {
+        std::cout << "KickPlayer: not found" << "\n";
+    }
+
 
     if (GiveAbility.Get()) {
         std::cout << "GiveAbility: 0x" << std::hex << (GiveAbility.Get() - Base) << "\n";
@@ -257,7 +315,7 @@ DWORD WINAPI FinderSeven(LPVOID lpParam)
         std::cout << "TickFlush: not found" << "\n";
     }
 
-
+    std::cout << "----------" << "\n";
 
     return 0;
 }
