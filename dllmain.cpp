@@ -29,11 +29,14 @@ DWORD WINAPI FinderSeven(LPVOID lpParam)
     auto TickFlush = Memcury::Scanner::FindPattern("4C 8B DC 55 53 56 57 49 8D AB ? ? ? ? 48 81 EC ? ? ? ? 41 0F 29 7B");
     auto GetMaxTickRate = Memcury::Scanner::FindPattern("48 8B C4 48 89 58 ? 48 89 68 ? 48 89 70 ? 57 41 55 41 56 48 83 EC ? 0F 29 70 ? 48 8B D9 0F 29");
     auto ReplicateActor = Memcury::Scanner::FindPattern("40 55 53 57 41 56 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ? 48 8D 59 68 4C 8B F1 48 8B");
+    auto GetWorldContext = Memcury::Scanner::FindPattern("48 8B 81 ? ? ? ? 48 63 89 ? ? ? ? 4C 8D 04 C8 49 3B C0 74 ? 48 8B 08 48 39 91 80 02 00 00 75 ? 48 8B C1 C3");
+    auto GiveAbility = Memcury::Scanner::FindPattern("48 89 5C 24 ? 56 57 41 56 48 83 EC 20 83 B9");
+    auto ApplyCharacterCustomization = Memcury::Scanner::FindPattern("48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 80 B9 ? ? ? ? ? 4C 8B EA");
+    auto Realloc = Memcury::Scanner::FindPattern("48 89 5C 24 08 48 89 74 24 10 57 48 83 EC ? 48 8B F1 41 8B D8 48 8B 0D ? ? ? ");
 
     // if initial patterns fail then it will try and use patterns from these below
 
     if (!CreateNetDriver.Get())
-
         CreateNetDriver = Memcury::Scanner::FindPattern("E8 ?? ?? ?? ?? 4C 8B 44 24 ?? 48 8B D0 48 8B CB E8 ?? ?? ?? ?? 48 83 C4 ?? 5B C3");
 
 
@@ -107,6 +110,65 @@ DWORD WINAPI FinderSeven(LPVOID lpParam)
     if (!ReplicateActor.Get())
         ReplicateActor = Memcury::Scanner::FindPattern("40 55 56 41 54 41 55 41 56 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ? 4C 8B E9 48 8B 49 68 48");
 
+    //getworldcontext
+
+    if (!GetWorldContext.Get())
+        GetWorldContext = Memcury::Scanner::FindPattern("48 8B 81 ? ? ? ? 48 63 89 ? ? ? ? 4C 8D 04 C8 49 3B C0 74 ? 48 8B 08 48 39 91 B8 02 00 00 75 ? 48 8B C1 C3");
+
+    if (!GetWorldContext.Get())
+        GetWorldContext = Memcury::Scanner::FindPattern("48 8B 81 ? ? ? ? 48 63 89 ? ? ? ? 4C 8D 04 C8 49 3B C0 74 ? 48 8B 08 48 39 91 70 02 00 00 75 ? 48 8B C1 C3");
+
+    if (!GetWorldContext.Get())
+        GetWorldContext = Memcury::Scanner::FindPattern("48 8B 81 ? ? ? ? 48 63 89 ? ? ? ? 4C 8D 04 C8 49 3B C0 74 ? 48 8B 08 48 39 91 ? ? ? ? 75 ? 48 8B C1 C3");
+
+    if (!GetWorldContext.Get())
+        GetWorldContext = Memcury::Scanner::FindPattern("48 8B 81 ? ? ? ? 48 63 89 ? ? ? ? 4C 8D 04 C8 49 3B C0 74 ? 48 8B 08 48 39 91 B8 02 00 00 74 ? 48 83 C0 08 EB ??");
+
+    if (!GetWorldContext.Get())
+        GetWorldContext = Memcury::Scanner::FindPattern("48 8B 81 ? ? ? ? 48 63 89 ? ? ? ? 4C 8D 04 C8 49 3B C0 74 ? 48 8B 08 48 39 91 ? ? ? ? 74 ? 48 83 C0 08 EB ??");
+
+    if (!GetWorldContext.Get())
+        GetWorldContext = Memcury::Scanner::FindPattern("40 53 48 83 EC ?? F6 41 08 10 48 8B D9 75 ?? 48 8B 41 20");
+
+    //give ability
+
+    if (!GiveAbility.Get())
+        GiveAbility = Memcury::Scanner::FindPattern("48 89 5C 24 ? 48 89 6C 24 ? 48 89 7C 24 ? 41 56 48 83 EC 20 83 B9 ? ? ? ? ? 49 8B E8 4C 8B F2");
+
+    if (!GiveAbility.Get())
+        GiveAbility = Memcury::Scanner::FindPattern("40 55 53 56 57 41 54 41 56 41 57 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 49 8B 40 ? 45 33 E4");
+
+    if (!GiveAbility.Get())
+        GiveAbility = Memcury::Scanner::FindPattern("48 89 5C 24 ? 48 89 6C 24 ? 56 57 41 56 48 83 EC 20 8B 81 ? ? ? ? 49 8B E8 4C");
+
+    if (!GiveAbility.Get())
+        GiveAbility = Memcury::Scanner::FindPattern("48 89 5C 24 ? 55 56 57 41 56 41 57 48 8B EC 48 83 EC ? 49 8B 40");
+
+    if (!GiveAbility.Get())
+        GiveAbility = Memcury::Scanner::FindPattern("48 89 5C 24 ? 48 89 6C 24 ? 56 57 41 56 48 83 EC 30 49 8B 40 10 45 33 F6 49 8B E8 48 8B F2 48 8B");
+
+    //applycharactercustomization
+
+    if (!ApplyCharacterCustomization.Get())
+        ApplyCharacterCustomization = Memcury::Scanner::FindPattern("48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 80 B9 ? ? ? ? ? 48 8B F1");
+
+    if (!ApplyCharacterCustomization.Get())
+        ApplyCharacterCustomization = Memcury::Scanner::FindPattern("48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 80 B9 ? ? ? ? ? 48 8B C2");
+
+    if (!ApplyCharacterCustomization.Get())
+        ApplyCharacterCustomization = Memcury::Scanner::FindPattern("48 89 5C 24 ? 48 89 74 24 ? 48 89 7C 24 ? 55 41 54 41 55 41 56 41 57 48 8B EC 48 81 EC ? ? ? ? 80 B9");
+
+    if (!ApplyCharacterCustomization.Get())
+        ApplyCharacterCustomization = Memcury::Scanner::FindPattern("48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8B EC 48 81 EC ? ? ? ? 80 B9");
+
+    if (!ApplyCharacterCustomization.Get())
+        ApplyCharacterCustomization = Memcury::Scanner::FindPattern("48 8B C4 48 89 50 10 55 57 48 8D 68 A1 48 81 EC ? ? ? ? 80 B9");
+
+    //realloc
+
+    if (!Realloc.Get())
+        Realloc = Memcury::Scanner::FindPattern("48 89 5C 24 08 48 89 74 24 10 57 48 83 EC ? 48 8B F1 41 8B D8 48 8B 0D ? ? ? ?"); // ig??
+
 
     uintptr_t Base = (uintptr_t)GetModuleHandleA(nullptr);
 
@@ -136,6 +198,12 @@ DWORD WINAPI FinderSeven(LPVOID lpParam)
         std::cout << "PickTeam: not found" << "\n";
     }
 
+    if (Realloc.Get()) {
+        std::cout << "Realloc: 0x" << std::hex << (Realloc.Get() - Base) << "\n";
+    }
+    else {
+        std::cout << "Realloc: not found" << "\n";
+    }
 
     if (GetMaxTickRate.Get()) {
         std::cout << "GetMaxTickRate: 0x" << std::hex << (GetMaxTickRate.Get() - Base) << "\n";
@@ -156,6 +224,29 @@ DWORD WINAPI FinderSeven(LPVOID lpParam)
     }
     else {
         std::cout << "GetNetMode: not found" << "\n";
+    }
+
+
+    if (GiveAbility.Get()) {
+        std::cout << "GiveAbility: 0x" << std::hex << (GiveAbility.Get() - Base) << "\n";
+    }
+    else {
+        std::cout << "GiveAbility: not found" << "\n";
+    }
+
+    if (ApplyCharacterCustomization.Get()) {
+        std::cout << "ApplyCharacterCustomization: 0x" << std::hex << (ApplyCharacterCustomization.Get() - Base) << "\n";
+    }
+    else {
+        std::cout << "ApplyCharacterCustomization: not found" << "\n";
+    }
+
+
+    if (GetWorldContext.Get()) {
+        std::cout << "GetWorldContext: 0x" << std::hex << (GetWorldContext.Get() - Base) << "\n";
+    }
+    else {
+        std::cout << "GetWorldContext: not found" << "\n";
     }
 
 
