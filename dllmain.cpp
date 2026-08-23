@@ -34,6 +34,7 @@ DWORD WINAPI FinderSeven(LPVOID lpParam)
     auto ApplyCharacterCustomization = Memcury::Scanner::FindPattern("48 89 5C 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 ? 48 81 EC ? ? ? ? 80 B9 ? ? ? ? ? 4C 8B EA");
     auto Realloc = Memcury::Scanner::FindPattern("48 89 5C 24 08 48 89 74 24 10 57 48 83 EC ? 48 8B F1 41 8B D8 48 8B 0D ? ? ? ");
     auto KickPlayer = Memcury::Scanner::FindPattern("40 53 56 48 81 EC ? ? ? ? 48 8B DA 48 8B F1 E8 ? ? ? ? 48 8B 06 48 8B CE");
+    auto CantBuild = Memcury::Scanner::FindPattern("48 89 5C 24 10 48 89 6C 24 18 48 89 74 24 20 41 56 48 83 EC ? 49 8B E9 4D 8B F0");
 
     // if initial patterns fail then it will try and use patterns from these below
 
@@ -220,102 +221,98 @@ DWORD WINAPI FinderSeven(LPVOID lpParam)
     if (!KickPlayer.Get())
         KickPlayer = Memcury::Scanner::FindPattern("40 53 41 56 48 81 EC ? ? ? ? 48 8B 01 48 8B DA 4C 8B F1 FF 90");
 
+    //cantbuild
+
+    if (!CantBuild.Get())
+        CantBuild = Memcury::Scanner::FindPattern("48 89 54 24 ? 55 56 41 56 48 83 EC 50");
+
+    if (!CantBuild.Get())
+        CantBuild = Memcury::Scanner::FindPattern("48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 41 56 41 57 48 83 EC 60 4D 8B F1 4D 8B F8");
+
+    if (!CantBuild.Get())
+        CantBuild = Memcury::Scanner::FindPattern("48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 41 56 41 57 48 83 EC 60 49 8B E9 4D 8B F8 48 8B DA 48 8B F9 BE ? ? ? ? 48");
+
+    if (!CantBuild.Get())
+        CantBuild = Memcury::Scanner::FindPattern("48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 41 56 41 57 48 83 EC 70 49 8B E9 4D 8B F8 48 8B DA 48 8B F9");
+
+    if (!CantBuild.Get())
+        CantBuild = Memcury::Scanner::FindPattern("48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 41 56 41 57 48 83 EC ? 48 8B 1A 4D 8B F1");
+
+
     uintptr_t Base = (uintptr_t)GetModuleHandleA(nullptr);
 
+    std::cout << "\n";
+    std::cout << "// Offsets generated! \n";
+    std::cout << "// made by yetzq7 | https://github.com/yetzq7/Finder7 \n";
+    std::cout << "\nclass Offsets\n{\npublic:\n";
 
-    std::cout << "- Offsets generated!" << "\n";
-    std::cout << "----------" << "\n";
+    if (CreateNetDriver.Get())
+        std::cout << "    static inline uint64_t CreateNetDriver = 0x" << std::hex << (CreateNetDriver.Get() - Base) << ";\n";
+    else
+        std::cout << "    // CreateNetDriver: not found\n";
 
-    if (CreateNetDriver.Get()) {
-        std::cout << "CreateNetDriver: 0x" << std::hex << (CreateNetDriver.Get() - Base) << "\n";
-    }
-    else {
-        std::cout << "CreateNetDriver: not found" << "\n";
-    }
+    if (InitListen.Get())
+        std::cout << "    static inline uint64_t InitListen = 0x" << std::hex << (InitListen.Get() - Base) << ";\n";
+    else
+        std::cout << "    // InitListen: not found\n";
 
+    if (PickTeam.Get())
+        std::cout << "    static inline uint64_t PickTeam = 0x" << std::hex << (PickTeam.Get() - Base) << ";\n";
+    else
+        std::cout << "    // PickTeam: not found\n";
 
-    if (InitListen.Get()) {
-        std::cout << "InitListen: 0x" << std::hex << (InitListen.Get() - Base) << "\n";
-    }
-    else {
-        std::cout << "InitListen: not found" << "\n";
-    }
+    if (Realloc.Get())
+        std::cout << "    static inline uint64_t Realloc = 0x" << std::hex << (Realloc.Get() - Base) << ";\n";
+    else
+        std::cout << "    // Realloc: not found\n";
 
+    if (GetMaxTickRate.Get())
+        std::cout << "    static inline uint64_t GetMaxTickRate = 0x" << std::hex << (GetMaxTickRate.Get() - Base) << ";\n";
+    else
+        std::cout << "    // GetMaxTickRate: not found\n";
 
-    if (PickTeam.Get()) {
-        std::cout << "PickTeam: 0x" << std::hex << (PickTeam.Get() - Base) << "\n";
-    }
-    else {
-        std::cout << "PickTeam: not found" << "\n";
-    }
+    if (ReplicateActor.Get())
+        std::cout << "    static inline uint64_t ReplicateActor = 0x" << std::hex << (ReplicateActor.Get() - Base) << ";\n";
+    else
+        std::cout << "    // ReplicateActor: not found\n";
 
-    if (Realloc.Get()) {
-        std::cout << "Realloc: 0x" << std::hex << (Realloc.Get() - Base) << "\n";
-    }
-    else {
-        std::cout << "Realloc: not found" << "\n";
-    }
+    if (GetNetMode.Get())
+        std::cout << "    static inline uint64_t GetNetMode = 0x" << std::hex << (GetNetMode.Get() - Base) << ";\n";
+    else
+        std::cout << "    // GetNetMode: not found\n";
 
-    if (GetMaxTickRate.Get()) {
-        std::cout << "GetMaxTickRate: 0x" << std::hex << (GetMaxTickRate.Get() - Base) << "\n";
-    }
-    else {
-        std::cout << "GetMaxTickRate: not found" << "\n";
-    }
+    if (KickPlayer.Get())
+        std::cout << "    static inline uint64_t KickPlayer = 0x" << std::hex << (KickPlayer.Get() - Base) << ";\n";
+    else
+        std::cout << "    // KickPlayer: not found\n";
 
-    if (ReplicateActor.Get()) {
-        std::cout << "ReplicateActor: 0x" << std::hex << (ReplicateActor.Get() - Base) << "\n";
-    }
-    else {
-        std::cout << "ReplicateActor: not found" << "\n";
-    }
+    if (GiveAbility.Get())
+        std::cout << "    static inline uint64_t GiveAbility = 0x" << std::hex << (GiveAbility.Get() - Base) << ";\n";
+    else
+        std::cout << "    // GiveAbility: not found\n";
 
-    if (GetNetMode.Get()) {
-        std::cout << "GetNetMode: 0x" << std::hex << (GetNetMode.Get() - Base) << "\n";
-    }
-    else {
-        std::cout << "GetNetMode: not found" << "\n";
-    }
+    if (ApplyCharacterCustomization.Get())
+        std::cout << "    static inline uint64_t ApplyCharacterCustomization = 0x" << std::hex << (ApplyCharacterCustomization.Get() - Base) << ";\n";
+    else
+        std::cout << "    // ApplyCharacterCustomization: not found\n";
 
-    if (KickPlayer.Get()) {
-        std::cout << "KickPlayer: 0x" << std::hex << (KickPlayer.Get() - Base) << "\n";
-    }
-    else {
-        std::cout << "KickPlayer: not found" << "\n";
-    }
+    if (GetWorldContext.Get())
+        std::cout << "    static inline uint64_t GetWorldContext = 0x" << std::hex << (GetWorldContext.Get() - Base) << ";\n";
+    else
+        std::cout << "    // GetWorldContext: not found\n";
 
+    if (CantBuild.Get())
+        std::cout << "    static inline uint64_t CantBuild = 0x" << std::hex << (CantBuild.Get() - Base) << ";\n";
+    else
+        std::cout << "    // CantBuild: not found\n";
 
-    if (GiveAbility.Get()) {
-        std::cout << "GiveAbility: 0x" << std::hex << (GiveAbility.Get() - Base) << "\n";
-    }
-    else {
-        std::cout << "GiveAbility: not found" << "\n";
-    }
+    if (TickFlush.Get())
+        std::cout << "    static inline uint64_t TickFlush = 0x" << std::hex << (TickFlush.Get() - Base) << ";\n";
+    else
+        std::cout << "    // TickFlush: not found\n";
 
-    if (ApplyCharacterCustomization.Get()) {
-        std::cout << "ApplyCharacterCustomization: 0x" << std::hex << (ApplyCharacterCustomization.Get() - Base) << "\n";
-    }
-    else {
-        std::cout << "ApplyCharacterCustomization: not found" << "\n";
-    }
-
-
-    if (GetWorldContext.Get()) {
-        std::cout << "GetWorldContext: 0x" << std::hex << (GetWorldContext.Get() - Base) << "\n";
-    }
-    else {
-        std::cout << "GetWorldContext: not found" << "\n";
-    }
-
-
-    if (TickFlush.Get()) {
-        std::cout << "TickFlush: 0x" << std::hex << (TickFlush.Get() - Base) << "\n";
-    }
-    else {
-        std::cout << "TickFlush: not found" << "\n";
-    }
-
-    std::cout << "----------" << "\n";
+    std::cout << "};\n";
+    std::cout << "\n";
 
     return 0;
 }
